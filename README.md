@@ -21,7 +21,18 @@ console.log "Minutes:      #{ti.minutes}"
 console.log "Seconds:      #{ti.seconds}"
 console.log "Milliseconds: #{ti.milliseconds}"
 console.log "Nanoseconds:  #{ti.nanoseconds}"
+
+# or use totalMilliseconds() to help set intervals
+setInterval ->
+  console.log "hello world"
+, ti.totalMilliseconds()
 ```
+
+Total nanoseconds is also available:
+```coffee
+ti.totalNanoseconds()
+```
+
 
 ## Testing
 
