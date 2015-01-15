@@ -2,9 +2,9 @@
   "name": "parse-interval",
   "version": "0.0.5",
   "author": "Mike Smiley <mikesmiley@me.com>",
-  "url": "https://github.com/mikesmiley/parse-interval",
+  "url": "https://github.com/msmiley/parse-interval",
   "main": "./lib",
-  "repository": "mikesmiley/parse-interval.git",
+  "repository": "msmiley/parse-interval.git",
   "scripts": {
     "docs": "cake doc",
     "prepublish": "cake build test doc",
