@@ -1,6 +1,6 @@
 {
   "name": "parse-interval",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "Mike Smiley <mikesmiley@me.com>",
   "url": "https://github.com/mikesmiley/parse-interval",
   "main": "./lib",
@@ -15,8 +15,7 @@
     "coffee-script": "^1.8.0",
     "jasmine-node": "^1.14.5"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "keywords": [
     "interval",
     "time",
