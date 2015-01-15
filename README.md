@@ -2,6 +2,8 @@
 
 Parse time intervals of the form DD.HH:MM:SS.FFFFFFFFF
 
+The days and fractional second fields are optional. Fractional seconds can be from 1 to 9 digit accuracy.
+
 ## Installation
 
 ```bash
