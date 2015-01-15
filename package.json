@@ -1,14 +1,14 @@
 {
-  "name": "",
-  "version": "0.1.0",
+  "name": "parse-interval",
+  "version": "0.0.0",
   "author": "Mike Smiley <mikesmiley@me.com>",
-  "url": "https://github.com/mikesmiley/",
+  "url": "https://github.com/mikesmiley/parse-interval",
   "main": "./lib",
-  "repository": "mikesmiley/npm-template.git",
+  "repository": "mikesmiley/parse-interval.git",
   "scripts": {
-    "doc": "cake doc",
+    "docs": "cake doc",
     "prepublish": "cake build test doc",
-    "test": "cake test"
+    "test": "cake build test"
   },
   "devDependencies": {
     "docco": "*",
@@ -16,9 +16,12 @@
     "jasmine-node": "^1.14.5"
   },
   "dependencies": {
-
   },
   "keywords": [
+    "interval",
+    "time",
+    "parse",
+    "parser"
   ],
   "license": "MIT"
 }
