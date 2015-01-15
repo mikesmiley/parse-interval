@@ -5,7 +5,7 @@
 #
 # @example Parsing a Time Interval string
 #   pi = require 'parse-interval'
-#   ti = ti.parse "1.02:03:04.123456789"
+#   ti = pi.parse "1.02:03:04.123456789"
 #   console.log "Days:         #{ti.days}"
 #   console.log "Hours:        #{ti.hours}"
 #   console.log "Minutes:      #{ti.minutes}"
