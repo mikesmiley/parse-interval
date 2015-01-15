@@ -1,6 +1,6 @@
 {
   "name": "parse-interval",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Mike Smiley <mikesmiley@me.com>",
   "url": "https://github.com/mikesmiley/parse-interval",
   "main": "./lib",
