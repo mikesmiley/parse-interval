@@ -6,9 +6,9 @@
   "main": "./lib",
   "repository": "msmiley/parse-interval.git",
   "scripts": {
-    "docs": "cake doc",
-    "prepublish": "cake build test doc",
-    "test": "cake build test"
+    "docs": "cake docs",
+    "prepublish": "cake build; cake test docs",
+    "test": "cake build; cake test"
   },
   "devDependencies": {
     "docco": "*",

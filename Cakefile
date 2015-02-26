@@ -25,7 +25,7 @@ task 'test', 'Run the Jasmine tests', ->
       process.exit 1 # abort npm packaging
     util.log("Test Results - \n#{stdout}")
 
-task 'doc', 'Generate documentation', ->
+task 'docs', 'Generate documentation', ->
   exec "./node_modules/.bin/docco src/*", (err, stdout, stderr) ->
     if err
       util.log "Docco Failed - \n#{stdout}"
