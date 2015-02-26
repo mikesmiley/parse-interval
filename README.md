@@ -34,6 +34,19 @@ Total nanoseconds is also available:
 ti.totalNanoseconds()
 ```
 
+Parse-interval also has .toString() functionality:
+
+```coffee
+ti = pi.blank()
+ti.days = 1
+ti.hours = 2
+ti.minutes = 3
+ti.seconds = 4
+ti.milliseconds = 123
+ti.toString()
+
+> "1.02:03:04.123"
+```
 
 ## Testing
 
