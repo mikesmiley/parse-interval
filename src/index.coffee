@@ -8,7 +8,7 @@ exports.parse = (interval) ->
   new TimeInterval interval
 
 #
-# Return a blank TimeInterval object for assigning values and .toString() functionality.
+# Return a new TimeInterval object for assigning values and .toString() functionality.
 #
-exports.blank = ->
+exports.create = ->
   new TimeInterval()

@@ -1,9 +1,9 @@
 #
-# Class to handle time intervals in the format DD.HH:MM:SS.FFFFFFFFF
+# TimeInterval handles time intervals in the format DD.HH:MM:SS.FFFFFFFFF
 #
-# @note This class transparently handles situations where the developer forgets to instantiate with the "new" keyword.
+# This class transparently handles situations where the developer forgets to instantiate with the "new" keyword.
 #
-# @example Parsing a Time Interval string
+# Parsing a Time Interval string
 #   pi = require 'parse-interval'
 #   ti = pi.parse "1.02:03:04.123456789"
 #   console.log "Days:         #{ti.days}"
@@ -15,7 +15,6 @@
 #
 class TimeInterval
   # Regular Expression to match Time Interval string format
-  # @note See code for comments on regex captures
   intervalRegex: ///
     ^(\d)?.?   # 1: days, optional
     (\d{2}):   # 2: hours
@@ -24,29 +23,16 @@ class TimeInterval
     (\d{0,9})? # 5: fractional seconds down to nanosecond, optional
   ///
 
-  # @property [Integer] The number of days
-  days: undefined
-  # @property [Integer] The number of hours
-  hours: undefined
-  # @property [Integer] The number of minutes
-  minutes: undefined
-  # @property [Integer] The number of seconds
-  seconds: undefined
-  # @property [Integer] The number of milliseconds
-  milliseconds: undefined
-  # @property [Integer] The number of nanoseconds
-  nanoseconds: undefined
-  # @property [String] An un-modified copy of the input string
-  pristine: undefined
-
   #
   # Constructor initializes values and parses a string argument if
   # provided.
-  # @throw [Error] for invalid string input
+  # Throws an Error for invalid string input
   #
   constructor: (i) ->
-    # handle the developer forgetting to use the "new" keyword
+    # Handle the developer forgetting to use the "new" keyword
     return new TimeInterval i unless @ instanceof TimeInterval
+
+    @days = @hours = @minutes = @seconds = @milliseconds = @nanoseconds = 0
 
     # parse if argument is string
     if typeof(i) is 'string'
@@ -57,7 +43,7 @@ class TimeInterval
 
   #
   # Function parses a string for Time Interval.
-  # @throw [Error] for invalid string input
+  # Throws Error for valid string input.
   #
   parse: (i) ->
     # save off original
@@ -81,8 +67,6 @@ class TimeInterval
   # Function to convert string value into a TimeInterval-compatible member.
   # If a callback is provided, it will be used for the conversion.
   # Undefined, null, and empty strings are converted to zero.
-  # @param s [String] The string to parse and convert
-  # @param callback [Function] Optional function to use for conversion
   #
   convert: (s, callback) ->
     if s and s.length > 0
@@ -94,11 +78,41 @@ class TimeInterval
       0
 
   #
-  # Function returns the total number of milliseconds represented by the current
-  # TimeInterval.
-  # @return [Integer] total milliseconds
+  # Calculate the total number of hours represented by this time interval.
+  #
+  totalHours: ->
+    @reflow()
+
+    @days*24 + \
+    @hours
+
+  #
+  # Calculate the total number of minutes represented by this time interval.
+  #
+  totalMinutes: ->
+    @reflow()
+
+    @days*1440 + \
+    @hours*60 + \
+    @minutes
+
+  #
+  # Calculate the total number of seconds represented by this time interval.
+  #
+  totalSeconds: ->
+    @reflow()
+
+    @days*86400 + \
+    @hours*3600 + \
+    @minutes*60 + \
+    @seconds
+
+  #
+  # Calculate the total number of milliseconds represented by this time interval.
   #
   totalMilliseconds: ->
+    @reflow()
+
     @days*86400000 + \
     @hours*3600000 + \
     @minutes*60000 + \
@@ -106,11 +120,11 @@ class TimeInterval
     @milliseconds
 
   #
-  # Function returns the total number of nanoseconds represented by the current
-  # TimeInterval.
-  # @return [Integer] total nanoseconds
+  # Calculate the total number of nanoseconds represented by this time interval.
   #
   totalNanoseconds: ->
+    @reflow()
+
     @days*864e11 + \
     @hours*36e11 + \
     @minutes*6e10 + \
@@ -119,9 +133,10 @@ class TimeInterval
 
   #
   # Function renders TimeInterval to a string in Time Interval format.
-  # @return [String] String representing current TimeInterval properties.
   #
   toString: ->
+    @reflow()
+
     ret = ""
     if @days
       ret += "#{@days}."
@@ -135,6 +150,30 @@ class TimeInterval
     else if @milliseconds
       ret += ".#{@milliseconds}"
     return ret
+
+  #
+  # Reflow the numbers.
+  #
+  reflow: ->
+    # Reflow overflowing nanoseconds
+    if @nanoseconds >= 1e9
+      @seconds = Math.floor(@nanoseconds / 1e9)
+      @nanoseconds = @nanoseconds % 1e9
+    if @milliseconds >= 1e3
+      @seconds = Math.floor(@milliseconds / 1e3)
+      @milliseconds = @milliseconds % 1e3
+    # Reflow overflowing seconds
+    if @seconds >= 60
+      @minutes += Math.floor(@seconds / 60)
+      @seconds = @seconds % 60
+    # Reflow overflowing minutes
+    if @minutes >= 60
+      @hours += Math.floor(@minutes / 60)
+      @minutes = @minutes % 60
+    # Reflow overflowing hours
+    if @hours >= 24
+      @days += Math.floor(@hours / 24)
+      @hours = @hours % 24
 
 #
 # Exports

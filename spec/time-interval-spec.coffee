@@ -5,6 +5,31 @@ describe "The parse-interval module", ->
 
   pi = require('../')
 
+  it "should create blank interval on create()", ->
+    ti = pi.create()
+    expect(ti.toString()).toBe "00:00:00"
+
+
+  it "should reflow overflowing minutes", ->
+    ti = pi.create()
+    ti.seconds = 93784
+    expect(ti.toString()).toBe "1.02:03:04"
+
+  it "should reflow overflowing seconds", ->
+    ti = pi.create()
+    ti.seconds = 93784
+    expect(ti.toString()).toBe "1.02:03:04"
+
+  it "should reflow overflowing milliseconds", ->
+    ti = pi.create()
+    ti.milliseconds = 93784123
+    expect(ti.toString()).toBe "1.02:03:04.123"
+
+  it "should reflow overflowing nanoseconds", ->
+    ti = pi.create()
+    ti.nanoseconds = 93784123456789
+    expect(ti.toString()).toBe "1.02:03:04.123456789"
+
   it "should parse 1.02:03:04.123456789", ->
     ti = pi.parse "1.02:03:04.123456789"
     expect(ti.days).toBe 1
@@ -60,6 +85,18 @@ describe "The parse-interval module", ->
       pi.parse ""
     expect(x).toThrow()
 
+  it "should provide total hours", ->
+    ti = pi.parse "1.02:03:04.123456789"
+    expect(ti.totalHours()).toBe 26
+
+  it "should provide total minutes", ->
+    ti = pi.parse "1.02:03:04.123456789"
+    expect(ti.totalMinutes()).toBe 1563
+
+  it "should provide total seconds", ->
+    ti = pi.parse "1.02:03:04.123456789"
+    expect(ti.totalSeconds()).toBe 93784
+
   it "should provide total milliseconds", ->
     ti = pi.parse "1.02:03:04.123456789"
     expect(ti.totalMilliseconds()).toBe 93784123
@@ -69,7 +106,7 @@ describe "The parse-interval module", ->
     expect(ti.totalNanoseconds()).toBe 93784123456789
 
   it "should properly render to string with milliseconds", ->
-    ti = pi.parse()
+    ti = pi.create()
     ti.days = 1
     ti.hours = 2
     ti.minutes = 3
@@ -78,7 +115,7 @@ describe "The parse-interval module", ->
     expect(ti.toString()).toBe "1.02:03:04.123"
 
   it "should properly render to string with nanoseconds", ->
-    ti = pi.parse()
+    ti = pi.create()
     ti.days = 1
     ti.hours = 2
     ti.minutes = 3

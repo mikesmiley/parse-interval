@@ -29,15 +29,18 @@ setInterval ->
 , ti.totalMilliseconds()
 ```
 
-Total nanoseconds is also available:
+Other totals available:
 ```coffee
+ti.totalHours()
+ti.totalMinutes()
+ti.totalSeconds()
 ti.totalNanoseconds()
 ```
 
-Parse-interval also has .toString() functionality:
+Parse-interval also has `.toString()` functionality. `toString()` is intelligent and will yield the correct string for overflowing time places.
 
 ```coffee
-ti = pi.blank()
+ti = pi.create() # create a blank time interval object
 ti.days = 1
 ti.hours = 2
 ti.minutes = 3
@@ -45,7 +48,13 @@ ti.seconds = 4
 ti.milliseconds = 123
 ti.toString()
 
-> "1.02:03:04.123"
+#> "1.02:03:04.123"
+
+ti = pi.create()
+ti.seconds = 93784
+ti.toString()
+
+#> "1.02:03:04.123"
 ```
 
 ## Testing
