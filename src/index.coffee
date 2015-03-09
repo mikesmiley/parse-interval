@@ -13,9 +13,11 @@ exports.parse = (interval) ->
 exports.create = ->
   new TimeInterval()
 
-
+#
+# Return the system uptime as a TimeInterval object ready to be stringified.
+#
 exports.uptime = ->
   os = require 'os'
   ti = new TimeInterval()
   ti.seconds = os.uptime()
-  ti.toString()
+  return ti

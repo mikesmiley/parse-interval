@@ -57,6 +57,17 @@ ti.toString()
 #> "1.02:03:04.123"
 ```
 
+### Uptime
+
+parse-interval conveniently provides the system uptime as a time interval:
+
+```coffee
+pi = require 'parse-interval'
+up = pi.uptime()
+up.toString()
+#> '2.06:17:46'
+```
+
 ## Testing
 
 ```bash
