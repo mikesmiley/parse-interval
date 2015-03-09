@@ -16,7 +16,7 @@
 class TimeInterval
   # Regular Expression to match Time Interval string format
   intervalRegex: ///
-    ^(\d)?.?   # 1: days, optional
+    ^(\d+)?.?  # 1: days, optional
     (\d{2}):   # 2: hours
     (\d{2}):   # 3: minutes
     (\d{2}).?  # 4: seconds
@@ -36,17 +36,17 @@ class TimeInterval
 
     # parse if argument is string
     if typeof(i) is 'string'
-      if i
+      if i.length > 0
         @parse i
       else
-        throw new Error("input does not contain valid TimeInterval string")
+        throw new Error("input is not a string")
 
   #
   # Function parses a string for Time Interval.
   # Throws Error for valid string input.
   #
   parse: (i) ->
-    # save off original
+    # save off original string
     @pristine = i
     ti = i.match @intervalRegex
     if ti
@@ -54,8 +54,6 @@ class TimeInterval
       @hours = @convert ti[2]
       @minutes = @convert ti[3]
       @seconds = @convert ti[4]
-      # convert any fractional to milliseconds
-      # since that is JavaScript's preferred resolution
       @milliseconds = @convert ti[5], (val) ->
         Math.round(parseInt(val) * Math.pow(10, 3 - val.length))
       @nanoseconds = @convert ti[5], (val) ->
@@ -141,11 +139,11 @@ class TimeInterval
     if @days
       ret += "#{@days}."
     # render main part. single digit values for hours, minutes, and seconds should be zero-padded
-    ret += "#{'0' if @hours <= 9}#{@hours}:\
-            #{'0' if @minutes <= 9}#{@minutes}:\
-            #{'0' if @seconds <= 9}#{@seconds}"
+    ret += "#{if @hours <= 9 then '0' else ''}#{@hours}:\
+            #{if @minutes <= 9 then '0' else ''}#{@minutes}:\
+            #{if @seconds <= 9 then '0' else ''}#{@seconds}"
     # prefer nanoseconds, but use milliseconds if set
-    if @nanoseconds
+    if @nanoseconds > 1e3
       ret += ".#{@nanoseconds}"
     else if @milliseconds
       ret += ".#{@milliseconds}"
@@ -156,12 +154,14 @@ class TimeInterval
   #
   reflow: ->
     # Reflow overflowing nanoseconds
-    if @nanoseconds >= 1e9
-      @seconds = Math.floor(@nanoseconds / 1e9)
-      @nanoseconds = @nanoseconds % 1e9
-    if @milliseconds >= 1e3
-      @seconds = Math.floor(@milliseconds / 1e3)
-      @milliseconds = @milliseconds % 1e3
+    if @nanoseconds > 1e3
+      if @nanoseconds >= 1e9
+        @seconds = Math.floor(@nanoseconds / 1e9)
+        @nanoseconds = @nanoseconds % 1e9
+    else
+      if @milliseconds >= 1e3
+        @seconds = Math.floor(@milliseconds / 1e3)
+        @milliseconds = @milliseconds % 1e3
     # Reflow overflowing seconds
     if @seconds >= 60
       @minutes += Math.floor(@seconds / 60)

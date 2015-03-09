@@ -12,3 +12,10 @@ exports.parse = (interval) ->
 #
 exports.create = ->
   new TimeInterval()
+
+
+exports.uptime = ->
+  os = require 'os'
+  ti = new TimeInterval()
+  ti.seconds = os.uptime()
+  ti.toString()

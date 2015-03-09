@@ -30,6 +30,15 @@ describe "The parse-interval module", ->
     ti.nanoseconds = 93784123456789
     expect(ti.toString()).toBe "1.02:03:04.123456789"
 
+  it "should parse 999.23:59:59.999999999", ->
+    ti = pi.parse "999.23:59:59.999999999"
+    expect(ti.days).toBe 999
+    expect(ti.hours).toBe 23
+    expect(ti.minutes).toBe 59
+    expect(ti.seconds).toBe 59
+    expect(ti.milliseconds).toBe 1000 # rounding
+    expect(ti.nanoseconds).toBe 999999999
+
   it "should parse 1.02:03:04.123456789", ->
     ti = pi.parse "1.02:03:04.123456789"
     expect(ti.days).toBe 1
@@ -122,3 +131,12 @@ describe "The parse-interval module", ->
     ti.seconds = 4
     ti.nanoseconds = 123456789
     expect(ti.toString()).toBe "1.02:03:04.123456789"
+
+  it "should property render 999.23:59:59.999999999", ->
+    ti = pi.create()
+    ti.days = 999
+    ti.hours = 23
+    ti.minutes = 59
+    ti.seconds = 59
+    ti.nanoseconds = 999999999
+    expect(ti.toString()).toBe "999.23:59:59.999999999"
